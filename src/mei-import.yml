@@ -1,0 +1,10 @@
+musikisum/educandu-plugin-mei-import:
+  name:
+    en: MEI import
+    de: MEI-Import
+  label:
+    en: MEI import label
+    de: MEI-Import-Label
+  currentServerTime:
+    en: Current server time
+    de: Aktuelle Serverzeit
