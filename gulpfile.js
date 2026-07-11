@@ -1,5 +1,4 @@
 import gulp from 'gulp';
-import { mkdirp } from 'mkdirp';
 import { deleteAsync } from 'del';
 import Graceful from 'node-graceful';
 import {
