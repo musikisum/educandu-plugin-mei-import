@@ -4,7 +4,6 @@ import path from 'node:path';
 import parseBool from 'parseboolean';
 import educandu from '@educandu/educandu';
 import customResolvers from './custom-resolvers.js';
-import MeiImportController from '../../src/mei-import-controller.js';
 
 const thisDir = path.dirname(url.fileURLToPath(import.meta.url));
 
@@ -36,7 +35,6 @@ const config = {
     styles: (await glob(`main-${'[A-Z0-9]'.repeat(8)}.css`, { cwd: path.resolve(thisDir, '../dist') })).map(x => `/${x}`)
   },
   resources: [path.resolve(thisDir, '../../src/translations.json')],
-  additionalControllers: [MeiImportController],
   sessionSecret: process.env.TEST_APP_SESSION_SECRET,
   sessionCookieDomain: process.env.TEST_APP_SESSION_COOKIE_DOMAIN,
   sessionCookieName: process.env.TEST_APP_SESSION_COOKIE_NAME,

@@ -1,77 +1,29 @@
-import { Form, Input } from 'antd';
-import { useTranslation } from 'react-i18next';
-import React, { useEffect, useState } from 'react';
-import Logger from '@educandu/educandu/common/logger.js';
+import React from 'react';
+import MeiDocument from './mei-document.js';
 import Markdown from '@educandu/educandu/components/markdown.js';
-import HttpClient from '@educandu/educandu/api-clients/http-client.js';
-import { handleApiError } from '@educandu/educandu/ui/error-helper.js';
+import ClientConfig from '@educandu/educandu/bootstrap/client-config.js';
+import { getAccessibleUrl } from '@educandu/educandu/utils/source-utils.js';
 import { useService } from '@educandu/educandu/components/container-context.js';
-import { useDateFormat } from '@educandu/educandu/components/locale-context.js';
 import { sectionDisplayProps } from '@educandu/educandu/ui/default-prop-types.js';
 
-const POLL_INTERVAL_IN_MS = 5000;
+export default function MeiImportDisplay({ content }) {
+  const clientConfig = useService(ClientConfig);
 
-const logger = new Logger(import.meta.url);
-
-export default function MeiImportDisplay({ content, input, canModifyInput, onInputChanged }) {
-  const { formatDate } = useDateFormat();
-  const httpClient = useService(HttpClient);
-  const [serverTime, setServerTime] = useState(null);
-  const { t } = useTranslation('musikisum/educandu-plugin-mei-import');
-
-  const handleCurrentValueChange = event => {
-    onInputChanged({ value: event.target.value });
-  };
-
-  useEffect(() => {
-    let nextTimeout = null;
-
-    const getUpdate = async () => {
-      try {
-        const response = await httpClient.get(
-          '/api/v1/plugin/musikisum/educandu-plugin-mei-import/time',
-          { responseType: 'json' }
-        );
-
-        setServerTime(response.data.time);
-        nextTimeout = setTimeout(getUpdate, POLL_INTERVAL_IN_MS);
-      } catch (error) {
-        handleApiError({ error, logger, t });
-      }
-    };
-
-    nextTimeout = setTimeout(getUpdate, 0);
-
-    return () => {
-      if (nextTimeout) {
-        clearTimeout(nextTimeout);
-      }
-    };
-  }, [httpClient, t]);
+  const { sourceUrl, zoom, spacingSystem, width, caption } = content;
+  const actualUrl = sourceUrl
+    ? getAccessibleUrl({ url: sourceUrl, cdnRootUrl: clientConfig.cdnRootUrl })
+    : null;
 
   return (
     <div className="EP_Musikisum_MeiImport_Display">
-      <div className={`u-horizontally-centered u-width-${content.width}`}>
-        <Markdown renderAnchors>
-          {content.text}
-        </Markdown>
-        <Form layout="vertical">
-          <Form.Item label={t('label')}>
-            <Input
-              value={input.data?.value || ''}
-              maxLength={100}
-              disabled={!canModifyInput}
-              readOnly={!canModifyInput}
-              onChange={handleCurrentValueChange}
-              />
-          </Form.Item>
-        </Form>
-        {!!serverTime && (
-          <div className="EP_Musikisum_MeiImport_Display-time">
-            {t('currentServerTime')}: {formatDate(serverTime)}
-          </div>
-        )}
+      <div className={`EP_Musikisum_MeiImport_Display-viewer u-width-${width || 100}`}>
+        <MeiDocument url={actualUrl} zoom={zoom} width={width} spacingSystem={spacingSystem} />
       </div>
+      {!!caption && (
+        <div className={`EP_Musikisum_MeiImport_Display-caption u-width-${width || 100}`}>
+          <Markdown inline>{caption}</Markdown>
+        </div>
+      )}
     </div>
   );
 }

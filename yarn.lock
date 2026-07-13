@@ -11266,6 +11266,11 @@ vary@^1, vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
+verovio@^6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/verovio/-/verovio-6.2.0.tgz#79fd4e2ad1e5305dc74a0072a4c588f9367704b0"
+  integrity sha512-yYU4CAik+ln4tdDOSLJPypQ24fiRsJtNgmgobsPnrSQYxesjwLrrPvth4mumeBRh3S20VERw9+GPXpRyhT1R4A==
+
 verror@1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/verror/-/verror-1.10.0.tgz#3a105ca17053af55d6e270c1f8288682e18da400"

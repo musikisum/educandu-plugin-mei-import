@@ -4,13 +4,21 @@
       "en": "MEI import",
       "de": "MEI-Import"
     },
-    "label": {
-      "en": "MEI import label",
-      "de": "MEI-Import-Label"
+    "zoom": {
+      "en": "Zoom",
+      "de": "Zoom"
     },
-    "currentServerTime": {
-      "en": "Current server time",
-      "de": "Aktuelle Serverzeit"
+    "spacingSystem": {
+      "en": "System spacing",
+      "de": "Akkoladenabstand"
+    },
+    "renderError": {
+      "en": "The file could not be displayed. Please check whether it is a valid MEI file.",
+      "de": "Die Datei konnte nicht angezeigt werden. Bitte prüfen Sie, ob es sich um eine gültige MEI-Datei handelt."
+    },
+    "largeFileWarning": {
+      "en": "This is a large file. Loading and displaying it may take a while.",
+      "de": "Dies ist eine große Datei. Laden und Anzeigen können eine Weile dauern."
     }
   }
 }

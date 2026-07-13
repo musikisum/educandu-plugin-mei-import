@@ -1,8 +1,24 @@
 .EP_Musikisum_MeiImport_Display {}
 
-.EP_Musikisum_MeiImport_Display-time {
-  font-style: italic;
+.EP_Musikisum_MeiImport_Display-caption {
   margin-top: @edu-page-content-padding;
+}
+
+.EP_Musikisum_MeiImport_Document {
+  position: relative;
+}
+
+.EP_Musikisum_MeiImport_Document-spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: fade(@edu-background-color-light, 60%);
+}
+
+.EP_Musikisum_MeiImport_Document-error {
+  font-style: italic;
 }
 
 .EP_Musikisum_MeiImport_Editor {}

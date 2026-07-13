@@ -20,7 +20,9 @@
     "type": "git",
     "url": "https://github.com/musikisum/educandu-plugin-mei-import"
   },
-  "dependencies": {},
+  "dependencies": {
+    "verovio": "^6.2.0"
+  },
   "devDependencies": {
     "@ant-design/icons": "5.5.1",
     "@educandu/dev-tools": "^15.1.0",

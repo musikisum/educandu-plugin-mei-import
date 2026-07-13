@@ -1,17 +1,19 @@
 import joi from 'joi';
 import React from 'react';
-import { ClockCircleOutlined } from '@ant-design/icons';
+import MeiImportIcon from './mei-import-icon.js';
 import cloneDeep from '@educandu/educandu/utils/clone-deep.js';
 import { PLUGIN_GROUP } from '@educandu/educandu/domain/constants.js';
-import { couldAccessUrlFromRoom } from '@educandu/educandu/utils/source-utils.js';
+import {
+  DEFAULT_ZOOM_VALUE, MAX_ZOOM_VALUE, MIN_ZOOM_VALUE,
+  DEFAULT_SPACING_SYSTEM_VALUE, MAX_SPACING_SYSTEM_VALUE, MIN_SPACING_SYSTEM_VALUE
+} from './constants.js';
 import GithubFlavoredMarkdown from '@educandu/educandu/common/github-flavored-markdown.js';
+import { isInternalSourceType, couldAccessUrlFromRoom } from '@educandu/educandu/utils/source-utils.js';
 
 class MeiImportInfo {
   static dependencies = [GithubFlavoredMarkdown];
 
   static typeName = 'musikisum/educandu-plugin-mei-import';
-
-  allowsInput = true;
 
   constructor(gfm) {
     this.gfm = gfm;
@@ -22,11 +24,11 @@ class MeiImportInfo {
   }
 
   getIcon() {
-    return <ClockCircleOutlined />;
+    return <MeiImportIcon />;
   }
 
   getGroups() {
-    return [PLUGIN_GROUP.mostUsed, PLUGIN_GROUP.other];
+    return [PLUGIN_GROUP.other];
   }
 
   async resolveDisplayComponent() {
@@ -39,15 +41,21 @@ class MeiImportInfo {
 
   getDefaultContent() {
     return {
-      text: '',
-      width: 100
+      sourceUrl: '',
+      zoom: DEFAULT_ZOOM_VALUE,
+      spacingSystem: DEFAULT_SPACING_SYSTEM_VALUE,
+      width: 100,
+      caption: ''
     };
   }
 
   validateContent(content) {
     const schema = joi.object({
-      text: joi.string().allow('').required(),
-      width: joi.number().min(0).max(100).required()
+      sourceUrl: joi.string().allow('').required(),
+      zoom: joi.number().min(MIN_ZOOM_VALUE).max(MAX_ZOOM_VALUE).required(),
+      spacingSystem: joi.number().min(MIN_SPACING_SYSTEM_VALUE).max(MAX_SPACING_SYSTEM_VALUE).required(),
+      width: joi.number().min(0).max(100).required(),
+      caption: joi.string().allow('').required()
     });
 
     joi.attempt(content, schema, { abortEarly: false, convert: false, noDefaults: true });
@@ -60,16 +68,28 @@ class MeiImportInfo {
   redactContent(content, targetRoomId) {
     const redactedContent = cloneDeep(content);
 
-    redactedContent.text = this.gfm.redactCdnResources(
-      redactedContent.text,
+    redactedContent.caption = this.gfm.redactCdnResources(
+      redactedContent.caption,
       url => couldAccessUrlFromRoom(url, targetRoomId) ? url : ''
     );
+
+    if (!couldAccessUrlFromRoom(redactedContent.sourceUrl, targetRoomId)) {
+      redactedContent.sourceUrl = '';
+    }
 
     return redactedContent;
   }
 
   getCdnResources(content) {
-    return this.gfm.extractCdnResources(content.text);
+    const cdnResources = [];
+
+    cdnResources.push(...this.gfm.extractCdnResources(content.caption));
+
+    if (isInternalSourceType({ url: content.sourceUrl })) {
+      cdnResources.push(content.sourceUrl);
+    }
+
+    return [...new Set(cdnResources)].filter(cdnResource => cdnResource);
   }
 }
 

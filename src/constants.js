@@ -1,0 +1,9 @@
+export const MIN_ZOOM_VALUE = 0.1;
+export const MAX_ZOOM_VALUE = 1.5;
+export const DEFAULT_ZOOM_VALUE = 1;
+
+export const MIN_SPACING_SYSTEM_VALUE = 0;
+export const MAX_SPACING_SYSTEM_VALUE = 48;
+export const DEFAULT_SPACING_SYSTEM_VALUE = 4;
+
+export const LARGE_FILE_SIZE_WARNING_THRESHOLD_IN_BYTES = 3 * 1000 * 1000;

@@ -131,7 +131,10 @@ export async function buildTestAppJs() {
       minify: !!cliArgs.optimize,
       incremental: isInWatchMode,
       inject: ['./test-app/src/polyfills.js'],
-      metaFilePath: './test-app/dist/.meta.json'
+      metaFilePath: './test-app/dist/.meta.json',
+      // verovio's WASM loader contains an unreachable Node.js fallback branch (`await import('node:module')`)
+      // that esbuild would otherwise try to resolve at bundle time even though it never runs in the browser.
+      external: ['node:module']
     });
   }
 }
