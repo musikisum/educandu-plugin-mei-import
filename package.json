@@ -21,6 +21,7 @@
     "url": "https://github.com/musikisum/educandu-plugin-mei-import"
   },
   "dependencies": {
+    "smplr": "^1.0.0",
     "verovio": "^6.2.0"
   },
   "devDependencies": {
@@ -38,6 +39,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "glob": "^11.0.3",
     "gulp": "^4.0.2",
+    "jsdom": "^25.0.0",
     "mkdirp": "^3.0.1",
     "parseboolean": "^1.0.0",
     "vitest": "^1.0.2"

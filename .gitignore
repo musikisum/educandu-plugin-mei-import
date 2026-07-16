@@ -2,4 +2,5 @@
 /coverage/**
 /dist/**
 /test-app/dist/**
+/assets/**
 .DS_Store
